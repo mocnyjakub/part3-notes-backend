@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
 const PORT = 3001;
 
@@ -33,6 +34,7 @@ morgan.token('body', function getBody(req) {
 const morganConfig =
   ':method :url :status :res[content-length] - :response-time ms :body';
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan(morganConfig));
 
@@ -55,7 +57,6 @@ app.get('/api/persons', (req, res) => {
 });
 
 app.get('/api/persons/:id', (req, res) => {
-  console.log(req.params);
   const id = Number(req.params.id);
   const person = persons.find((person) => person.id === id);
   if (person) {
